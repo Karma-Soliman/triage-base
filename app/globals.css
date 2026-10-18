@@ -76,3 +76,13 @@ button:disabled {
 [role="alert"] {
   color: #a51d25;
 }
+
+.chat { max-width: 880px; }
+.panel { background: white; border: 1px solid #ccd3df; border-radius: 12px; padding: 24px; margin-top: 24px; }
+input, select { width: 100%; padding: 12px; border: 1px solid #ccd3df; border-radius: 8px; font: inherit; }
+article { margin-top: 20px; }
+a { color: #245dcc; }
+.admin { padding: 32px; max-width: 1600px; margin: auto; }
+.table-scroll { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; background: white; }
+th, td { text-align: left; vertical-align: top; padding: 12px; border: 1px solid #ccd3df; overflow-wrap: anywhere; min-width: 130px; }
