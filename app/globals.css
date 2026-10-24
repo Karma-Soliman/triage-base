@@ -86,3 +86,11 @@ a { color: #245dcc; }
 .table-scroll { overflow-x: auto; }
 table { border-collapse: collapse; width: 100%; background: white; }
 th, td { text-align: left; vertical-align: top; padding: 12px; border: 1px solid #ccd3df; overflow-wrap: anywhere; min-width: 130px; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; }
+.actions button:first-child { background: white; color: #245dcc; }
+details { margin-top: 16px; padding: 12px; border: 1px solid #ccd3df; border-radius: 8px; }
+summary { cursor: pointer; }
+small { font-size: 0.8em; }
+
+.site-nav { display: flex; gap: 24px; padding: 18px 24px; background: white; border-bottom: 1px solid #ccd3df; }

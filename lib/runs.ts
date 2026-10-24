@@ -1,8 +1,9 @@
 import { appendFile, mkdir, readFile } from "node:fs/promises";
 import path from "node:path";
-import type { TriageResult } from "./schemas";
-export type TicketOutcome = { ticketId: string; subject: string; expected: { category: string; priority: string } | null; result: TriageResult | null; error: string | null };
+import type { Stage, Strategy, TriageResult } from "./schemas";
+export type TicketOutcome = { ticketId: string; subject: string; expected: { category: string; priority: string } | null; result: TriageResult | null; error: string | null; stages?: Stage[]; errorCode?: string; retryAfter?: string | null };
 export type SmokeRun = {
+  strategy?: Strategy; sampleSeed?: string; retries?: number; modelsUsed?: string[];
   id: string; createdAt: string; dataset: string; sampleSize: number; model: string;
   succeeded: number; failed: number; humanReview: number;
   categoryMismatches: number | null; priorityMismatches: number | null;
