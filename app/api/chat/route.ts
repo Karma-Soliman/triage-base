@@ -1,4 +1,5 @@
-import { llm, model } from "../../../lib/llm";
+import { getLLM, model } from "../../../lib/llm";
+import { providerError, withRateLimitRetry } from "../../../lib/retry";
 
 export async function POST(request: Request) {
   let body: unknown;
@@ -36,23 +37,24 @@ export async function POST(request: Request) {
     return Response.json({ error: "Invalid history." }, { status: 400 });
   }
 
+  const message = body.message.trim();
   try {
-    const response = await llm.chat.completions.create({
+    const { value: response } = await withRateLimitRetry(() => getLLM().chat.completions.create({
       model,
       messages: [
         { role: "system", content: "You are a helpful support assistant." },
         ...history.map((m) => ({ role: m.role, content: m.content })),
-        { role: "user", content: body.message.trim() },
+        { role: "user", content: message },
       ],
-    });
-
-    return Response.json({
-      answer: response.choices[0]?.message.content ?? "",
-    });
-  } catch {
+    }).catch(error => { throw providerError(error, "Chat"); }));
+    const answer = response.choices[0]?.message.content;
+    if (!answer?.trim()) return Response.json({ error: "The assistant returned an empty reply. Please try again." }, { status: 502 });
+    return Response.json({ answer });
+  } catch (error) {
+    const failure = providerError(error, "Chat");
     return Response.json(
-      { error: "Cannot generate an answer." },
-      { status: 502 },
+      { error: failure.message },
+      { status: failure.status === 429 ? 429 : 502, headers: failure.retryAfter ? { "Retry-After": failure.retryAfter } : undefined },
     );
   }
 }
