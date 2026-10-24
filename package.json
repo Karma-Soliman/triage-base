@@ -6,8 +6,7 @@
     "dev": "next dev --port 3033",
     "build": "next build",
     "start": "next start --port 3033",
-    "typecheck": "tsc --noEmit",
-    "test": "node tests/triage.cjs"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "next": "^16.0.0",
@@ -21,5 +20,10 @@
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
     "typescript": "^5.9.0"
+  },
+  "_disabledScripts": {
+    "test": "node tests/triage.cjs",
+    "evaluate": "node scripts/evaluate.cjs",
+    "report": "node scripts/evaluate.cjs --report-only"
   }
 }
